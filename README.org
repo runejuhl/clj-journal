@@ -1,0 +1,25 @@
+* clj-journal
+
+Structured logging to systemd journal using native systemd libraries and JNA
+(Java Native Access).
+
+Includes a log appender for timbre.
+
+** Usage
+
+#+BEGIN_SRC clojure
+  (jprint :error "Oh noes, an error!")
+  (jsend :emerg
+    "Even worse, we got ourselves an emergency!"
+    :some-informational-value 9000)
+
+  (def debug (jprint :debug))
+  (debug "This is a bit too verbose to be :info")
+#+END_SRC
+
+*** Logging with Timbre
+
+#+BEGIN_SRC clojure
+  (timbre/merge-config!
+    {:appenders {:journal-appender (journal-appender)}})
+#+END_SRC
