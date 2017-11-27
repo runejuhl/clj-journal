@@ -8,6 +8,7 @@ Includes a log appender for timbre.
 ** Usage
 
 #+BEGIN_SRC clojure
+  (require '[clj-journal.log :refer [jprint jsend]])
   (jprint :error "Oh noes, an error!")
   (jsend :emerg
     "Even worse, we got ourselves an emergency!"
@@ -17,9 +18,20 @@ Includes a log appender for timbre.
   (debug "This is a bit too verbose to be :info")
 #+END_SRC
 
+*** Log level conversion
+
+You can override =clj-journal.util/level->syslog= if you want to use another way
+of converting a keyword/string reprentation of the log level to an integer:
+
+#+BEGIN_SRC clojure
+  (binding [clj-journal.util/level->syslog (fn [_] 1)]
+    ;; prints as ALERT instead of DEBUG
+    (jprint :debug "hello there"))
+#+END_SRC
+
 *** Logging with Timbre
 
 #+BEGIN_SRC clojure
   (timbre/merge-config!
-    {:appenders {:journal-appender (journal-appender)}})
+    {:appenders {:journal-appender (clj-journal.timbre/journal-appender)}})
 #+END_SRC

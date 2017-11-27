@@ -1,5 +1,6 @@
-(defproject runejuhl/clj-journal "0.1.0"
-  :description "Logging to systemd-journal using jna/native journal libraries."
+(defproject runejuhl/clj-journal "0.2.0"
+  :description "Structured logging to systemd journal using native systemd libraries and JNA
+(Java Native Access)"
   :url "https://github.com/runejuhl/clj-journal"
   :license {:name "GPL-3.0"
             :url  "http://www.gnu.org/licenses/gpl-3.0-standalone.html"}
