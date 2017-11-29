@@ -5,6 +5,12 @@ Structured logging to systemd journal using native systemd libraries and JNA
 
 Includes a log appender for timbre.
 
+** Installation
+
+#+BEGIN_SRC clojure
+  [runejuhl/clj-journal "0.2.1"]
+#+END_SRC
+
 ** Usage
 
 #+BEGIN_SRC clojure
