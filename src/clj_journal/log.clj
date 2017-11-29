@@ -9,8 +9,8 @@
   Returns a partial function if only `log-level` is given."
   ([log-level]
    (partial jprint log-level))
-  ([log-level format & args]
-   (->> (flatten [(level->syslog log-level) format args])
+  ([log-level fmt & args]
+   (->> (flatten [(level->syslog log-level) fmt args])
      (to-array)
      (.invoke sd_journal_print Integer)
      (errno->string))))
