@@ -8,4 +8,6 @@
 
                  ;; for journald logging; also requires libsystemd to be
                  ;; installed
-                 [net.java.dev.jna/jna "3.4.0"]])
+                 [net.java.dev.jna/jna "3.4.0"]]
+
+  :eastwood {:exclude-linters [:constant-test]})
