@@ -1,5 +1,5 @@
 (ns clj-journal.timbre
-  (:require [clj-journal.core :refer [jsend]]))
+  (:require [clj-journal.log :refer [jsend]]))
 
 (def timbre->syslog-map
   {:trace  7                       ;debug
