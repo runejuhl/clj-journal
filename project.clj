@@ -10,4 +10,8 @@
                  ;; installed
                  [net.java.dev.jna/jna "3.4.0"]]
 
-  :eastwood {:exclude-linters [:constant-test]})
+  :eastwood {:exclude-linters [:constant-test]}
+
+  :profiles
+  {:dev
+   {:dependencies [[com.taoensso/timbre "4.10.0"]]}})

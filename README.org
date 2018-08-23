@@ -40,4 +40,8 @@ of converting a keyword/string reprentation of the log level to an integer:
 #+BEGIN_SRC clojure
   (timbre/merge-config!
     {:appenders {:journal-appender (clj-journal.timbre/journal-appender)}})
+
+  (timbre/info "something happened!" {:asd   12
+                                      :leet  1337
+                                      :weird {:blegh "lollo"}})
 #+END_SRC
