@@ -18,7 +18,8 @@
   (get timbre->syslog-map k 3))
 
 (defn journal-appender
-  "Journal appender for timbre. Optionally takes a single fn that should return a map that will be merged into the structured fields sent to journal.
+  "Journal appender for timbre. Optionally takes a single fn that should return
+  a map that will be merged into the structured fields sent to journal.
 
   Any maps passed to a timbre logger will be sent to journal as structured data.
   Any complex data structures in values will be serialized as EDN."
