@@ -17,9 +17,28 @@
   [k]
   (get timbre->syslog-map k 3))
 
+(declare stacktrace)
+(defn journal-output-fn
+  "journald (fn [data]) -> string output fn.
+  Use`(partial default-output-fn <opts-map>)` to modify default opts.
+
+  Modified from timbre/default-output-fn to remove timestamp, hostname and log
+  level information, as this is already provided by journal."
+  ([     data] (journal-output-fn nil data))
+  ([opts data] ; For partials
+   (let [{:keys [no-stacktrace? stacktrace-fonts]}       opts
+         {:keys [?err #_vargs msg_ ?ns-str ?file ?line]} data]
+     (str
+       "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
+       (force msg_)
+       (when-not no-stacktrace?
+         (when-let [err ?err]
+           (str "\n" (stacktrace err opts))))))))
+
 (defn journal-appender
-  "Journal appender for timbre. Optionally takes a single fn that should return
-  a map that will be merged into the structured fields sent to journal.
+  "Journal appender for timbre, using `journal-output-fn`. Optionally takes a
+  single fn that should return a map that will be merged into the structured
+  fields sent to journal.
 
   Any maps passed to a timbre logger will be sent to journal as structured data.
   Any complex data structures in values will be serialized as EDN."
@@ -33,7 +52,7 @@
     :async?     false
     :min-level  :trace
     :rate-limit nil
-    :output-fn  :inherit
+    :output-fn  journal-output-fn
     :fn
     (fn [{:keys [instant level output_ vargs]
          :as   data}]
