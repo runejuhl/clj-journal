@@ -19,18 +19,24 @@
 
 (declare stacktrace)
 (defn journal-output-fn
-  "journald (fn [data]) -> string output fn.
+  "journal (fn [data]) -> string output fn.
   Use`(partial default-output-fn <opts-map>)` to modify default opts.
 
-  Modified from timbre/default-output-fn to remove timestamp, hostname and log
-  level information, as this is already provided by journal."
+  Modified from timbre/default-output-fn to remove timestamp, hostname, log
+  level information and any hash-maps passed in `vargs`, as this is already
+  provided by journal.
+
+  Note that this output handler does not try to retain information in case of
+  duplicate keys in maps passed in `vargs`."
   ([     data] (journal-output-fn nil data))
   ([opts data] ; For partials
-   (let [{:keys [no-stacktrace? stacktrace-fonts]}       opts
-         {:keys [?err #_vargs msg_ ?ns-str ?file ?line]} data]
+   (let [{:keys [show-fields? no-stacktrace? stacktrace-fonts]} opts
+         {:keys [?err vargs msg_ ?ns-str ?file ?line]}          data]
      (str
        "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
-       (force msg_)
+       (if show-fields?
+         (force msg_)
+         (clojure.string/join " " (filter (comp not map?) vargs)))
        (when-not no-stacktrace?
          (when-let [err ?err]
            (str "\n" (stacktrace err opts))))))))
