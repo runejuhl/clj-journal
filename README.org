@@ -5,6 +5,11 @@ Structured logging to systemd journal using native systemd libraries and JNA
 
 Includes a log appender for timbre.
 
+** Features
+
++ automatically converts hash-maps to journal fields
++ includes timbre output function that removes redundancy in log lines
+
 ** Installation
 
 #+BEGIN_SRC clojure
