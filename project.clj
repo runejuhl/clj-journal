@@ -1,4 +1,4 @@
-(defproject runejuhl/clj-journal "0.2.2"
+(defproject runejuhl/clj-journal "0.2.3"
   :description "Structured logging to systemd journal using native systemd libraries and JNA
 (Java Native Access)"
   :url "https://github.com/runejuhl/clj-journal"

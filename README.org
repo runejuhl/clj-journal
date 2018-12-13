@@ -13,7 +13,7 @@ Includes a log appender for timbre.
 ** Installation
 
 #+BEGIN_SRC clojure
-  [runejuhl/clj-journal "0.2.2"]
+  [runejuhl/clj-journal "0.2.3"]
 #+END_SRC
 
 ** Usage
