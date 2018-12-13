@@ -29,6 +29,31 @@
             (format "Invalid log level '%s'" k)))
         i))))
 
+(defprotocol FieldName
+  "Turn anything into a string."
+  (stringify [_]))
+
+(extend-protocol FieldName
+  String
+  (stringify [s] s)
+  clojure.lang.Keyword
+  (stringify [k] (name k))
+  Object
+  (stringify [o] (str o)))
+
+(defn to-field-name
+  "Stringify arbitrary objects to use as journal field names.
+
+  Prefixes invalid field names (i.e. not starting with a letter) with \"X_\" to
+  allow passing arbitrary names to journal."
+  [o]
+  (let [n              (stringify o)
+        N              (clojure.string/upper-case n)
+        sanitized-name (if (re-find #"^[A-Z]" N)
+                         N
+                         (str "X_" N))]
+    sanitized-name))
+
 (defn args->journal-fields
   "Convert args into systemd journal fields (i.e. `PRIORITY=3`). Fields with
   `nil` values are pruned.
@@ -41,5 +66,5 @@
     (filter (comp not nil? second))
     (map
       (fn [[k v]]
-        (str (clojure.string/upper-case (name k)) "=" v)))
+        (str (to-field-name k) "=" v)))
     (into [])))

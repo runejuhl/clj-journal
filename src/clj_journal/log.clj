@@ -26,7 +26,7 @@
    {:pre [(-> args count even?)]}
    (->> args
      (concat [:message   msg
-              :log-level (level->syslog log-level)])
+              :priority (level->syslog log-level)])
      (apply args->journal-fields)
      ;; The varargs for the sd_journal functions needs to end with a null byte
      (#(conj % 0x0))

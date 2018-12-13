@@ -14,4 +14,5 @@
 
   :profiles
   {:dev
-   {:dependencies [[com.taoensso/timbre "4.10.0"]]}})
+   {:dependencies [[com.taoensso/timbre "4.10.0"]
+                   [org.clojure/data.json "0.2.6"]]}})
