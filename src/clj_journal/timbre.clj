@@ -2,6 +2,7 @@
   (:require [clj-journal.log :refer [jsend]]))
 
 (def timbre->syslog-map
+  "Map timbre log levels to syslog levels"
   {:trace  7                       ;debug
    :debug  7                       ;debug
    :info   6                       ;info
@@ -17,7 +18,13 @@
   [k]
   (get timbre->syslog-map k 3))
 
-(declare stacktrace)
+(defn stacktrace
+  "Simple stacktrace to string. `_opts` currently do nothing."
+  ([err]
+   (stacktrace err nil))
+  ([err _opts]
+   (str err)))
+
 (defn journal-output-fn
   "journal (fn [data]) -> string output fn.
   Use`(partial default-output-fn <opts-map>)` to modify default opts.

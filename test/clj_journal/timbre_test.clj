@@ -63,3 +63,10 @@
          (log :info "hello there" {:a1 f} {:wtf 42 :133asd 1231})
          (keys result)))
      "Invalid keys are automatically coerced and sanitized")))
+
+(deftest exceptions
+  (is (not= (try (timbre/info (ex-info "something happened" {}))
+                 (catch Exception ex
+                   (.getMessage ex)))
+            "Attempting to call unbound fn: #'clj-journal.timbre/stacktrace")
+      "The stacktrace function exists"))
