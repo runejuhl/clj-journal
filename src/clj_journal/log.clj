@@ -11,9 +11,9 @@
    (partial jprint log-level))
   ([log-level fmt & args]
    (->> (flatten [(level->syslog log-level) fmt args])
-     (to-array)
-     (.invoke sd_journal_print Integer)
-     (errno->string))))
+        (to-array)
+        (.invoke sd_journal_print Integer)
+        (errno->string))))
 
 (defn jsend
   "Submit structured log messages to the journal log. `args` should be given as
@@ -25,11 +25,11 @@
   ([log-level msg & args]
    {:pre [(-> args count even?)]}
    (->> args
-     (concat [:message   msg
-              :priority (level->syslog log-level)])
-     (apply args->journal-fields)
+        (concat [:message   msg
+                 :priority (level->syslog log-level)])
+        (apply args->journal-fields)
      ;; The varargs for the sd_journal functions needs to end with a null byte
-     (#(conj % 0x0))
-     (to-array)
-     (.invoke sd_journal_send Integer)
-     (errno->string))))
+        (#(conj % 0x0))
+        (to-array)
+        (.invoke sd_journal_send Integer)
+        (errno->string))))

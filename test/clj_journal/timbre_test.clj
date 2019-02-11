@@ -24,33 +24,33 @@
 
 (deftest timbre
   (is (map? (journal-appender))
-    "journal-appender should return a map")
+      "journal-appender should return a map")
 
   (is (= "1"                            ;1 is alert
-        (:PRIORITY
-         (binding [clj-journal.timbre/timbre->syslog (fn [_] 1)]
-           (log :debug "hello there, this is an alert"))))
-    "The timbre->syslog level conversion can be overridden"))
+         (:PRIORITY
+          (binding [clj-journal.timbre/timbre->syslog (fn [_] 1)]
+            (log :debug "hello there, this is an alert"))))
+      "The timbre->syslog level conversion can be overridden"))
 
 (deftest logging-tests
   (is (= "12" (:ASD (log :info "hello there" {:asd 12})))
-    "We can retrieve data sent to journal")
+      "We can retrieve data sent to journal")
 
   (is (= "42" (:WTF (log :info "hello there" {:asd 12} {:wtf 42})))
-    "Logging functions may pass multiple hash-maps")
+      "Logging functions may pass multiple hash-maps")
 
   (is (= "42" (:WTF (log :info "hello there" {:wtf 12} {:wtf 42})))
-    "Right-most hash-map wins")
+      "Right-most hash-map wins")
 
   (is (= {:WTF "42"
           :ASD "12"}
-        (select-keys
+         (select-keys
           (log :info "hello there" {:asd 12} {:wtf 42})
           #{:WTF :ASD}))
-    "Logging functions may pass multiple hash-maps")
+      "Logging functions may pass multiple hash-maps")
 
   (is (= "42" (:WTF (log :info "hello there" {1 (fn [] "omg")} {:wtf 42})))
-    "Hash-map keys may be of arbitrary types")
+      "Hash-map keys may be of arbitrary types")
 
   (let [f      (fn [] "omg")
         fs     (str f)
@@ -58,8 +58,8 @@
                 :A1       fs
                 :WTF      "42"}]
     (is
-      (= result
+     (= result
         (select-keys
-          (log :info "hello there" {:a1 f} {:wtf 42 :133asd 1231})
-          (keys result)))
-      "Invalid keys are automatically coerced and sanitized")))
+         (log :info "hello there" {:a1 f} {:wtf 42 :133asd 1231})
+         (keys result)))
+     "Invalid keys are automatically coerced and sanitized")))

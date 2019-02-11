@@ -25,8 +25,8 @@
     (let [i (.indexOf log-levels k)]
       (if (neg? i)
         (throw
-          (IllegalArgumentException.
-            (format "Invalid log level '%s'" k)))
+         (IllegalArgumentException.
+          (format "Invalid log level '%s'" k)))
         i))))
 
 (defprotocol FieldName
@@ -62,9 +62,9 @@
   [& args]
   {:pre [(-> args count even?)]}
   (->> args
-    (partition 2)
-    (filter (comp not nil? second))
-    (map
-      (fn [[k v]]
-        (str (to-field-name k) "=" v)))
-    (into [])))
+       (partition 2)
+       (filter (comp not nil? second))
+       (map
+        (fn [[k v]]
+          (str (to-field-name k) "=" v)))
+       (into [])))

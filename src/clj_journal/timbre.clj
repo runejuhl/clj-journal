@@ -9,7 +9,7 @@
    :error  3                       ;err
    :report 1                       ;alert
    :fatal  0                       ;emerg
-   })
+})
 
 (defn ^:dynamic timbre->syslog
   "Convert Timbre log level into the syslog equivalent.
@@ -28,18 +28,17 @@
 
   Note that this output handler does not try to retain information in case of
   duplicate keys in maps passed in `vargs`."
-  ([     data] (journal-output-fn nil data))
+  ([data] (journal-output-fn nil data))
   ([opts data] ; For partials
    (let [{:keys [show-fields? no-stacktrace? stacktrace-fonts]} opts
          {:keys [?err vargs msg_ ?ns-str ?file ?line]}          data]
-     (str
-       "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
-       (if show-fields?
-         (force msg_)
-         (clojure.string/join " " (filter (comp not map?) vargs)))
-       (when-not no-stacktrace?
-         (when-let [err ?err]
-           (str "\n" (stacktrace err opts))))))))
+     (str "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
+          (if show-fields?
+            (force msg_)
+            (clojure.string/join " " (filter (comp not map?) vargs)))
+          (when-not no-stacktrace?
+            (when-let [err ?err]
+              (str "\n" (stacktrace err opts))))))))
 
 (defn journal-appender
   "Journal appender for timbre, using `journal-output-fn`. Optionally takes a
@@ -61,9 +60,9 @@
     :output-fn  journal-output-fn
     :fn
     (fn [{:keys [instant level output_ vargs]
-         :as   data}]
+          :as   data}]
       (let [default-fields (default-fields-fn data)
             log-maps       (filter map? vargs)
             merged-map     (merge (apply merge log-maps) default-fields)]
         (apply jsend (concat [(timbre->syslog level) (force output_)]
-                       (reduce concat merged-map)))))}))
+                             (reduce concat merged-map)))))}))
