@@ -37,7 +37,10 @@
   String
   (stringify [s] s)
   clojure.lang.Keyword
-  (stringify [k] (name k))
+  (stringify [k] (str
+                  (if-let [n (namespace k)]
+                    (str n "_"))
+                  (name k)))
   Object
   (stringify [o] (str o)))
 
