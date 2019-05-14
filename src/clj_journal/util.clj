@@ -50,12 +50,15 @@
   Prefixes invalid field names (i.e. not starting with a letter) with \"X_\" to
   allow passing arbitrary names to journal."
   [o]
-  (let [n              (stringify o)
-        N              (clojure.string/upper-case n)
-        sanitized-name (if (re-find #"^[A-Z]" N)
-                         N
-                         (str "X_" N))]
-    sanitized-name))
+  (-> o
+      (stringify)
+      (clojure.string/upper-case)
+      ;; make sure we don't have invalid characters in field names, as fields
+      ;; will be silently dropped
+      (clojure.string/replace #"[^A-Z_]" "_")
+      (#(if (re-find #"^[A-Z]" %)
+          %
+          (str "X_" %)))))
 
 (defn args->journal-fields
   "Convert args into systemd journal fields (i.e. `PRIORITY=3`). Fields with
