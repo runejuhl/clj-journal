@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file. This change
 log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.2.5] - 2019-05-14
+### Fixed
+- Namespaced keywords are now allowed as field names
+- Invalid characters in field names are now replaced with `_`
+
 ## [0.2.4] - 2019-02-11
 ### Fixed
 - Logging an error now no longer causes an IllegalStateException to be thrown
