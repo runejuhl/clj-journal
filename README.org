@@ -13,7 +13,7 @@ Includes a log appender for timbre.
 ** Installation
 
 #+BEGIN_SRC clojure
-  [runejuhl/clj-journal "0.2.4"]
+  [runejuhl/clj-journal "0.2.5-1"]
 #+END_SRC
 
 ** Usage
@@ -50,3 +50,19 @@ of converting a keyword/string reprentation of the log level to an integer:
                                       :leet  1337
                                       :weird {:blegh "lollo"}})
 #+END_SRC
+
+** Bugs/issues
+
+*** Logging ~%n~
+
+Previous to version ~v0.2.5-1~ the JVM would crash if trying to log a string
+containing ~%n~. For some reason this would also happen if the ~n~ was a
+newline, e.g. logging the string ~omg %\n~.
+
+In order to combat this we've introduced the dynamic variable
+~clj-journal.log/*strict*~, which defaults to ~false~. When the value is non-nil
+~clj-journal~ will throw an exception if it encounters ~%n~; otherwise it'll
+silently replace ~%n~ with ~%_n~.
+
+It is, of course, less than optimal for a logging framework to silently change
+the log messages, so /caveat emptor/. Oh, and help wanted!

@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file. This change
 log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.2.5-1] - 2019-05-22
+### Fixed
+- Fixed issue when log message contains `%n`, which would cause `printf` to
+  error out which would cause the JVM to crash.
+
 ## [0.2.5] - 2019-05-14
 ### Fixed
 - Namespaced keywords are now allowed as field names
