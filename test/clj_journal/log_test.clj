@@ -16,5 +16,5 @@
 
   (testing "send"
     (is (nil? (jsend :err "test!")))
-    ;; (is (nil? (jsend :err "test! %n")))
+    (is (nil? (jsend :err "test! %n")))
     (is (thrown? IllegalArgumentException (jsend :not-a-log-level "booo")))))
