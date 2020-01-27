@@ -23,7 +23,7 @@
   ([err]
    (stacktrace err nil))
   ([err _opts]
-   (str err)))
+   (taoensso.timbre/stacktrace err)))
 
 (defn journal-output-fn
   "journal (fn [data]) -> string output fn.
