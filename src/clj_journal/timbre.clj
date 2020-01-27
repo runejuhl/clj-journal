@@ -1,5 +1,6 @@
 (ns clj-journal.timbre
-  (:require [clj-journal.log :refer [jsend]]))
+  (:require [clojure.string :as str]
+            [clj-journal.log :refer [jsend]]))
 
 (def timbre->syslog-map
   "Map timbre log levels to syslog levels"
@@ -38,8 +39,9 @@
   ([data] (journal-output-fn nil data))
   ([opts data] ; For partials
    (let [{:keys [show-fields? no-stacktrace? stacktrace-fonts]} opts
-         {:keys [?err vargs msg_ ?ns-str ?file ?line]}          data]
-     (str "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
+         {:keys [level ?err vargs msg_ ?ns-str ?file ?line]}          data]
+     (str (str/upper-case (name level)) " "
+          "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
           (if show-fields?
             (force msg_)
             (clojure.string/join " " (filter (comp not map?) vargs)))
