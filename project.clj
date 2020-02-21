@@ -2,8 +2,8 @@
   :description "Structured logging to systemd journal using native systemd libraries and JNA
 (Java Native Access)"
   :url "https://github.com/runejuhl/clj-journal"
-  :license {:name "GPL-3.0"
-            :url  "http://www.gnu.org/licenses/gpl-3.0-standalone.html"}
+  :license {:name "Eclipse Public License v2.0"
+            :url  "https://www.eclipse.org/legal/epl-v20.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
 
                  ;; for journald logging; also requires libsystemd to be
