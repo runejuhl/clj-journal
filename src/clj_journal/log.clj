@@ -4,20 +4,8 @@
             [clj-journal.util :refer :all]
             [clojure.string]))
 
-(def ^:dynamic *strict*
-  "Whether we should raise an exception on `%n` values in strings, or if we
-  should silently replace it with `%_n` to avoid the \"%n in writable segment
-  detected\" C printf error from killing the JVM."
-  false)
-
-(defn sanitize-format-string
-  [s]
-  (let [s* (clojure.string/replace s #"%n" "%_n")]
-    (when (and (not= s s*)
-               *strict*)
-      (throw (ex-info "Invalid format string in log message"
-                      {:string s})))
-    s*))
+(defn sanitize-format-string [s]
+  (clojure.string/replace s #"%" "%%"))
 
 (defn jprint
   "Submit simple plain text messages to the journal log.
