@@ -71,7 +71,7 @@
   (->> args
        (partition 2)
        (filter (comp not nil? second))
-       (map
+       (mapcat
         (fn [[k v]]
-          (str (to-field-name k) "=" v)))
+          ["%s" (str (to-field-name k) "=" v)]))
        (into [])))

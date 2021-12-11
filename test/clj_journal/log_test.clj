@@ -5,9 +5,9 @@
 
 (deftest logging
   (testing "print"
-    (is (nil? (jprint :err "test! %s" "a string!")))
-    (is (nil? (jprint :err "testing more: %x" 3735928559)))
-    (is (nil? (jprint :err "testing more: %n" 3735928559)))
+    (is (nil? (jprint :err "test! a string!")))
+    (is (nil? (jprint :err "testing more: %x")))
+    (is (nil? (jprint :err "testing more: %n")))
 
     (is (nil?
          (binding [clj-journal.util/level->syslog (fn [_] 1)]

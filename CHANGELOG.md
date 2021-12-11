@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. This change
 log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.3.0] - 2021-12-11
+### Removed
+- No longer expose the format string capability of the underlying library as
+  using it incorrectly or unintentionally can lead to JVM crashes or unintended
+  data being logged.
+
 ## [0.2.5-1] - 2019-05-22
 ### Fixed
 - Fixed issue when log message contains `%n`, which would cause `printf` to
