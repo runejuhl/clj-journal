@@ -1,7 +1,7 @@
 (ns clj-journal.timbre-test
-  (:require [clj-journal.timbre :refer :all]
+  (:require [clj-journal.timbre :refer [journal-appender]]
             [clj-journal.test.util :refer [get-journal-entry]]
-            [clojure.test :refer :all]
+            [clojure.test :refer [deftest is use-fixtures]]
             [taoensso.timbre :as timbre]))
 
 (defmacro log

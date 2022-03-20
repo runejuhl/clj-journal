@@ -1,4 +1,5 @@
-(ns clj-journal.util)
+(ns clj-journal.util
+  (:require [clojure.string]))
 
 (def ^clojure.lang.PersistentList log-levels
   "Symbolic log levels. Based on `man syslog.2`:
@@ -38,7 +39,7 @@
   (stringify [s] s)
   clojure.lang.Keyword
   (stringify [k] (str
-                  (if-let [n (namespace k)]
+                  (when-let [n (namespace k)]
                     (str n "_"))
                   (name k)))
   Object

@@ -1,6 +1,7 @@
 (ns clj-journal.log-test
-  (:require [clj-journal.log :refer :all]
-            [clojure.test :refer :all]))
+  (:require [clj-journal.log :refer [jprint jsend]]
+            [clj-journal.util]
+            [clojure.test :refer [deftest is testing]]))
 
 (deftest logging
   (testing "print"

@@ -5,8 +5,8 @@
 (defn get-journal-entry
   "Get a single journal entry with a particular ID."
   [id]
-  (let [{:keys [out exit] :as entry}
+  (let [{:keys [out exit] :as _entry}
         (sh/sh "journalctl" "-n1"  "--output=json" (str "CLJ_JOURNAL_IDENTIFIER=" id))]
-    (if (and (zero? exit) (not (empty? out)))
+    (when (and (zero? exit) (seq out))
       (json/read-str out
-        :key-fn keyword))))
+                     :key-fn keyword))))
