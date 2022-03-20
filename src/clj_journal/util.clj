@@ -56,7 +56,7 @@
       (clojure.string/upper-case)
       ;; make sure we don't have invalid characters in field names, as fields
       ;; will be silently dropped
-      (clojure.string/replace #"[^A-Z_]" "_")
+      (clojure.string/replace #"[^A-Z0-9_]" "_")
       (#(if (re-find #"^[A-Z]" %)
           %
           (str "X_" %)))))
