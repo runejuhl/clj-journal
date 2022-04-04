@@ -4,7 +4,7 @@
 
 (deftest utility
   (is (= (args->journal-fields "some" 12 "value" "message")
-         ["SOME=12" "VALUE=message"])
+         ["%s" "SOME=12" "%s" "VALUE=message"])
       "Should return a vector of strings")
 
   (is (thrown? AssertionError (args->journal-fields "some" 12 "value"))

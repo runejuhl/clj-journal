@@ -1,4 +1,5 @@
-(ns clj-journal.util)
+(ns clj-journal.util
+  (:require [clojure.string]))
 
 (def ^clojure.lang.PersistentList log-levels
   "Symbolic log levels. Based on `man syslog.2`:
@@ -38,7 +39,7 @@
   (stringify [s] s)
   clojure.lang.Keyword
   (stringify [k] (str
-                  (if-let [n (namespace k)]
+                  (when-let [n (namespace k)]
                     (str n "_"))
                   (name k)))
   Object
@@ -55,7 +56,7 @@
       (clojure.string/upper-case)
       ;; make sure we don't have invalid characters in field names, as fields
       ;; will be silently dropped
-      (clojure.string/replace #"[^A-Z_]" "_")
+      (clojure.string/replace #"[^A-Z0-9_]" "_")
       (#(if (re-find #"^[A-Z]" %)
           %
           (str "X_" %)))))
@@ -70,7 +71,7 @@
   (->> args
        (partition 2)
        (filter (comp not nil? second))
-       (map
+       (mapcat
         (fn [[k v]]
-          (str (to-field-name k) "=" v)))
+          ["%s" (str (to-field-name k) "=" v)]))
        (into [])))

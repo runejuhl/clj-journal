@@ -1,12 +1,13 @@
 (ns clj-journal.log-test
-  (:require [clj-journal.log :refer :all]
-            [clojure.test :refer :all]))
+  (:require [clj-journal.log :refer [jprint jsend]]
+            [clj-journal.util]
+            [clojure.test :refer [deftest is testing]]))
 
 (deftest logging
   (testing "print"
-    (is (nil? (jprint :err "test! %s" "a string!")))
-    (is (nil? (jprint :err "testing more: %x" 3735928559)))
-    (is (nil? (jprint :err "testing more: %n" 3735928559)))
+    (is (nil? (jprint :err "test! a string!")))
+    (is (nil? (jprint :err "testing more: %x")))
+    (is (nil? (jprint :err "testing more: %n")))
 
     (is (nil?
          (binding [clj-journal.util/level->syslog (fn [_] 1)]

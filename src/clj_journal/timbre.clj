@@ -1,5 +1,6 @@
 (ns clj-journal.timbre
-  (:require [clj-journal.log :refer [jsend]]))
+  (:require [clojure.string]
+            [clj-journal.log :refer [jsend]]))
 
 (def timbre->syslog-map
   "Map timbre log levels to syslog levels"
@@ -10,7 +11,7 @@
    :error  3                       ;err
    :report 1                       ;alert
    :fatal  0                       ;emerg
-})
+   })
 
 (defn ^:dynamic timbre->syslog
   "Convert Timbre log level into the syslog equivalent.
@@ -37,7 +38,7 @@
   duplicate keys in maps passed in `vargs`."
   ([data] (journal-output-fn nil data))
   ([opts data] ; For partials
-   (let [{:keys [show-fields? no-stacktrace? stacktrace-fonts]} opts
+   (let [{:keys [show-fields? no-stacktrace?]} opts
          {:keys [?err vargs msg_ ?ns-str ?file ?line]}          data]
      (str "[" (or ?ns-str ?file "?") ":" (or ?line "?") "] - "
           (if show-fields?
@@ -55,7 +56,7 @@
   Any maps passed to a timbre logger will be sent to journal as structured data.
   Any complex data structures in values will be serialized as EDN."
   ([]
-   (journal-appender (fn [{:keys [?file ?line ?ns-str] :as data}]
+   (journal-appender (fn [{:keys [?file ?line ?ns-str] :as _data}]
                        {"CODE_FILE" ?file
                         "CODE_LINE" ?line
                         "CODE_NS"   ?ns-str})))
@@ -66,7 +67,7 @@
     :rate-limit nil
     :output-fn  journal-output-fn
     :fn
-    (fn [{:keys [instant level output_ vargs]
+    (fn [{:keys [level output_ vargs]
           :as   data}]
       (let [default-fields (default-fields-fn data)
             log-maps       (filter map? vargs)
